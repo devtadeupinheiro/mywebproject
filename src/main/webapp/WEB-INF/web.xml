@@ -9,4 +9,14 @@
     <welcome-file>default.jsp</welcome-file>
     <welcome-file>default.htm</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>UsuarioController</display-name>
+    <servlet-name>UsuarioController</servlet-name>
+    <servlet-class>dev.tadeupinheiro.controller.UsuarioController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UsuarioController</servlet-name>
+    <url-pattern>/usucontroller.do</url-pattern>
+  </servlet-mapping>
 </web-app>
