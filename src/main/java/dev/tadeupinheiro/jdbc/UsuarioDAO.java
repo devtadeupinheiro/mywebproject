@@ -11,8 +11,15 @@ import dev.tadeupinheiro.entidades.Usuario;
 
 public class UsuarioDAO {
 	
-	private Connection con = Conexao.getConnection();
+	//private Connection con = Conexao.getConnection();
+	private Connection con;
 	
+	
+	public UsuarioDAO() {
+
+		this.con = Conexao.getConnection();
+	}
+
 	public void cadastrarUsuario (Usuario usuario) {
 		
 		String sql = "INSERT INTO USUARIO (nome, login, senha) VALUES (?, ?, ?)";
@@ -33,6 +40,18 @@ public class UsuarioDAO {
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
+			
+		} finally {
+			
+			try {
+				
+				con.close();
+				
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+				
+			}
 			
 		}
 		
