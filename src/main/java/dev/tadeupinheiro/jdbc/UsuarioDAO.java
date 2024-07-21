@@ -20,6 +20,8 @@ public class UsuarioDAO {
 		this.con = Conexao.getConnection();
 	}
 
+	
+	
 	public void cadastrarUsuario (Usuario usuario) {
 		
 		String sql = "INSERT INTO USUARIO (nome, login, senha) VALUES (?, ?, ?)";
@@ -57,6 +59,8 @@ public class UsuarioDAO {
 		
 	}
 	
+	
+	
 	public void alterarUsuario (Usuario usuario) {
 			
 		String sql = "UPDATE USUARIO SET nome=?, login=?, senha=? WHERE id=?";
@@ -83,6 +87,8 @@ public class UsuarioDAO {
 		
 	}
 	
+	
+	
 	public void excluirUsuario (Usuario usuario) {
 		
 		String sql = "DELETE FROM USUARIO WHERE id=?";
@@ -105,6 +111,8 @@ public class UsuarioDAO {
 		}
 		
 	}
+	
+	
 	
 	public List<Usuario> buscarTodosUsuario () {
 		
@@ -144,6 +152,8 @@ public class UsuarioDAO {
 		
 	}
 	
+	
+	
 	public Usuario buscarUsuarioId (Integer id) {
 		
 		String sql = "SELECT * FROM USUARIO WHERE id = ?";
@@ -178,6 +188,8 @@ public class UsuarioDAO {
 		return usuario;
 		
 	}
+	
+	
 	
 	public List<Usuario> buscarUsuarioNome (String nome) {
 		
@@ -215,6 +227,24 @@ public class UsuarioDAO {
 		return usuarioList;
 		
 	}
+	
+	
+	
+	public void salvar (Usuario usuario) {
+		
+		if (usuario.getId() != null && usuario.getId() != 0) {
+			
+			alterarUsuario(usuario);
+			
+		} else {
+			
+			cadastrarUsuario(usuario);
+			
+		}
+		
+	}
+	
+	
 	
 	public Usuario autenticar (Usuario usuario) {
 		

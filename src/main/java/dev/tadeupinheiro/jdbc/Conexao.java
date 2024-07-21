@@ -17,9 +17,13 @@ public class Conexao {
 			con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/bancoteste", "postgres", "Eusei2202@");
 			System.out.println("Conectado com sucesso!");
 			
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (SQLException e) {
 
 			System.out.println("Não pode conectar: " + e.getMessage());
+			
+		} catch (ClassNotFoundException e) {
+			
+			System.out.println("Não foi possível encontrar o driver" + e.getMessage());
 			
 		}
 		
