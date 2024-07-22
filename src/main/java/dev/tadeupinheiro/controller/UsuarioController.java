@@ -1,5 +1,6 @@
 package dev.tadeupinheiro.controller;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -25,15 +26,51 @@ public class UsuarioController extends HttpServlet {
 		
 		System.out.println("Chamando Método GET");
 		
+		//Obtendo a lista
 		UsuarioDAO usuarioDao = new UsuarioDAO();
 		List<Usuario> usuarioList = usuarioDao.buscarTodosUsuario();
 		
-		for (Usuario usuario : usuarioList) {
+		//Colocando ponteiro dentro do request
+		request.setAttribute("lista", usuarioList);
+		
+		//Encaminhando ao JSP
+		RequestDispatcher saida = request.getRequestDispatcher("listausuarios.jsp");
+		saida.forward(request, response);		
+		
+		/*for (Usuario usuario : usuarioList) {
 			
 			PrintWriter saida = response.getWriter();
 			saida.println(usuario);
 			
+		}*/
+		
+		
+		//MANEIRA RÚSTICA DE FAZER SERVLET COM HTML DE SAIDA
+		/*
+		StringBuilder htmlSaida = new StringBuilder("<html> <body> <table border='1'>");
+		htmlSaida.append("<tr> <td> Id </td> <td> Nome </td> <td> Login </td> <td> Senha </td> </tr> ");
+		String inicioLinhaTabela = "<tr> <td> ";
+		String fimInicioDadoTabela = " </td> <td> ";
+		String encerraTabela = "</td> </tr> </table> </body> </html>";
+		
+		for (Usuario usuario : usuarioList) {
+			
+			htmlSaida.append(inicioLinhaTabela);
+			htmlSaida.append(usuario.getId());
+			htmlSaida.append(fimInicioDadoTabela);
+			htmlSaida.append(usuario.getNome());
+			htmlSaida.append(fimInicioDadoTabela);
+			htmlSaida.append(usuario.getLogin());
+			htmlSaida.append(fimInicioDadoTabela);
+			htmlSaida.append(usuario.getSenha());	
+			
 		}
+		
+		htmlSaida.append(encerraTabela);
+		
+		PrintWriter saida = response.getWriter();
+		saida.print(htmlSaida.toString());
+		*/
 		
 	}
 
