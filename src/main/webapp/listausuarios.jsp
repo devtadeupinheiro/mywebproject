@@ -17,6 +17,7 @@
 			<th> Nome </th>
 			<th> Login </th>
 			<th> Senha </th>
+			<th> Ação </th>
 		</tr>
 	
 <%
@@ -30,7 +31,8 @@ for (Usuario usuario : usuarioList) {
 		<td><%=usuario.getId()%></td>
 		<td><%out.print(usuario.getNome());%></td>
 		<td><%=usuario.getLogin()%></td> <!-- Sinal de "=" é um atalho para out.print, nesse caso não usar ponto e vírgula no final -->
-		<td><%=usuario.getSenha()%>
+		<td><%=usuario.getSenha()%> </td>
+		<td><a href="usucontroller.do?acao=exc&id=<%=usuario.getId()%>">Excluir</a></td> <!-- Passa para o método get o parâmetro ação e o parâmetro ID -->
 	</tr>
 
 <% } %>

@@ -26,53 +26,67 @@ public class UsuarioController extends HttpServlet {
 		
 		System.out.println("Chamando Método GET");
 		
-		//Obtendo a lista
-		UsuarioDAO usuarioDao = new UsuarioDAO();
-		List<Usuario> usuarioList = usuarioDao.buscarTodosUsuario();
+		UsuarioDAO usuDao = new UsuarioDAO();
 		
-		//Colocando ponteiro dentro do request
-		request.setAttribute("lista", usuarioList);
-		
-		//Encaminhando ao JSP
-		RequestDispatcher saida = request.getRequestDispatcher("listausuarios.jsp");
-		saida.forward(request, response);		
-		
-		/*for (Usuario usuario : usuarioList) {
+		String acao = request.getParameter("acao"); //Pega o parametro "acao" que foi passado para o metodo
+		if (acao != null && acao.equals("exc")) {
+			
+			String id = request.getParameter("id");
+			Usuario usuario = new Usuario();
+			usuario.setId(Integer.parseInt(id));
+			usuDao.excluirUsuario(usuario);
+			
+		} else {
+			
+			//Obtendo a lista
+			List<Usuario> usuarioList = usuDao.buscarTodosUsuario();
+			
+			//Colocando ponteiro dentro do request
+			request.setAttribute("lista", usuarioList);
+			
+			//Encaminhando ao JSP
+			RequestDispatcher saida = request.getRequestDispatcher("listausuarios.jsp");
+			saida.forward(request, response);		
+			
+			/*for (Usuario usuario : usuarioList) {
+				
+				PrintWriter saida = response.getWriter();
+				saida.println(usuario);
+				
+			}*/
+			
+			
+			//MANEIRA RÚSTICA DE FAZER SERVLET COM HTML DE SAIDA
+			/*
+			StringBuilder htmlSaida = new StringBuilder("<html> <body> <table border='1'>");
+			htmlSaida.append("<tr> <td> Id </td> <td> Nome </td> <td> Login </td> <td> Senha </td> </tr> ");
+			String inicioLinhaTabela = "<tr> <td> ";
+			String fimInicioDadoTabela = " </td> <td> ";
+			String encerraTabela = "</td> </tr> </table> </body> </html>";
+			
+			for (Usuario usuario : usuarioList) {
+				
+				htmlSaida.append(inicioLinhaTabela);
+				htmlSaida.append(usuario.getId());
+				htmlSaida.append(fimInicioDadoTabela);
+				htmlSaida.append(usuario.getNome());
+				htmlSaida.append(fimInicioDadoTabela);
+				htmlSaida.append(usuario.getLogin());
+				htmlSaida.append(fimInicioDadoTabela);
+				htmlSaida.append(usuario.getSenha());	
+				
+			}
+			
+			htmlSaida.append(encerraTabela);
 			
 			PrintWriter saida = response.getWriter();
-			saida.println(usuario);
-			
-		}*/
-		
-		
-		//MANEIRA RÚSTICA DE FAZER SERVLET COM HTML DE SAIDA
-		/*
-		StringBuilder htmlSaida = new StringBuilder("<html> <body> <table border='1'>");
-		htmlSaida.append("<tr> <td> Id </td> <td> Nome </td> <td> Login </td> <td> Senha </td> </tr> ");
-		String inicioLinhaTabela = "<tr> <td> ";
-		String fimInicioDadoTabela = " </td> <td> ";
-		String encerraTabela = "</td> </tr> </table> </body> </html>";
-		
-		for (Usuario usuario : usuarioList) {
-			
-			htmlSaida.append(inicioLinhaTabela);
-			htmlSaida.append(usuario.getId());
-			htmlSaida.append(fimInicioDadoTabela);
-			htmlSaida.append(usuario.getNome());
-			htmlSaida.append(fimInicioDadoTabela);
-			htmlSaida.append(usuario.getLogin());
-			htmlSaida.append(fimInicioDadoTabela);
-			htmlSaida.append(usuario.getSenha());	
+			saida.print(htmlSaida.toString());
+			*/
 			
 		}
-		
-		htmlSaida.append(encerraTabela);
-		
-		PrintWriter saida = response.getWriter();
-		saida.print(htmlSaida.toString());
-		*/
-		
+			
 	}
+
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
