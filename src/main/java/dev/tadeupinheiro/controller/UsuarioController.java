@@ -29,12 +29,33 @@ public class UsuarioController extends HttpServlet {
 		UsuarioDAO usuDao = new UsuarioDAO();
 		
 		String acao = request.getParameter("acao"); //Pega o parametro "acao" que foi passado para o metodo
-		if (acao != null && acao.equals("exc")) {
+		boolean teste = acao != null;
+		
+		if (teste && acao.equals("exc")) {
 			
 			String id = request.getParameter("id");
 			Usuario usuario = new Usuario();
 			usuario.setId(Integer.parseInt(id));
 			usuDao.excluirUsuario(usuario);
+			
+		} else if (teste && acao.equals("alt")) {
+			
+			String id = request.getParameter("id");
+			Usuario usuario = usuDao.buscarUsuarioId(Integer.parseInt(id));
+			request.setAttribute("usuario", usuario);
+			RequestDispatcher saida = request.getRequestDispatcher("formusuario.jsp");
+			saida.forward(request, response);
+			
+		} else if (teste && acao.equals("cad")) {
+			
+			Usuario usuario = new Usuario();
+			usuario.setId(0);
+			usuario.setNome("");
+			usuario.setLogin("");
+			usuario.setSenha("");
+			request.setAttribute("usuario", usuario);
+			RequestDispatcher saida = request.getRequestDispatcher("formusuario.jsp");
+			saida.forward(request, response);
 			
 		} else {
 			

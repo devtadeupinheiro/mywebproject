@@ -32,7 +32,10 @@ for (Usuario usuario : usuarioList) {
 		<td><%out.print(usuario.getNome());%></td>
 		<td><%=usuario.getLogin()%></td> <!-- Sinal de "=" é um atalho para out.print, nesse caso não usar ponto e vírgula no final -->
 		<td><%=usuario.getSenha()%> </td>
-		<td><a href="usucontroller.do?acao=exc&id=<%=usuario.getId()%>">Excluir</a></td> <!-- Passa para o método get o parâmetro ação e o parâmetro ID -->
+		<td>
+			<a href="usucontroller.do?acao=exc&id=<%=usuario.getId()%>">Excluir</a> <!-- Passa para o método get o parâmetro ação e o parâmetro ID -->
+			<a href="usucontroller.do?acao=alt&id=<%= usuario.getId()%>">Alterar</a>
+		</td>
 	</tr>
 
 <% } %>
