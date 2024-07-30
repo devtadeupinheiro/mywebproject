@@ -20,6 +20,54 @@ public class UsuarioController extends HttpServlet {
 
     public UsuarioController() {}  
     
+    protected void listarUsuarios (UsuarioDAO usuDao, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//Obtendo a lista
+		List<Usuario> usuarioList = usuDao.buscarTodosUsuario();
+		
+		//Colocando ponteiro dentro do request
+		request.setAttribute("lista", usuarioList);
+		
+		//Encaminhando ao JSP
+		RequestDispatcher saida = request.getRequestDispatcher("listausuarios.jsp");
+		saida.forward(request, response);		
+		
+		/*for (Usuario usuario : usuarioList) {
+			
+			PrintWriter saida = response.getWriter();
+			saida.println(usuario);
+			
+		}*/
+		
+		
+		//MANEIRA RÚSTICA DE FAZER SERVLET COM HTML DE SAIDA
+		/*
+		StringBuilder htmlSaida = new StringBuilder("<html> <body> <table border='1'>");
+		htmlSaida.append("<tr> <td> Id </td> <td> Nome </td> <td> Login </td> <td> Senha </td> </tr> ");
+		String inicioLinhaTabela = "<tr> <td> ";
+		String fimInicioDadoTabela = " </td> <td> ";
+		String encerraTabela = "</td> </tr> </table> </body> </html>";
+		
+		for (Usuario usuario : usuarioList) {
+			
+			htmlSaida.append(inicioLinhaTabela);
+			htmlSaida.append(usuario.getId());
+			htmlSaida.append(fimInicioDadoTabela);
+			htmlSaida.append(usuario.getNome());
+			htmlSaida.append(fimInicioDadoTabela);
+			htmlSaida.append(usuario.getLogin());
+			htmlSaida.append(fimInicioDadoTabela);
+			htmlSaida.append(usuario.getSenha());	
+			
+		}
+		
+		htmlSaida.append(encerraTabela);
+		
+		PrintWriter saida = response.getWriter();
+		saida.print(htmlSaida.toString());
+		*/
+		
+	}   
     
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -31,12 +79,26 @@ public class UsuarioController extends HttpServlet {
 		String acao = request.getParameter("acao"); //Pega o parametro "acao" que foi passado para o metodo
 		boolean teste = acao != null;
 		
+		
+		
 		if (teste && acao.equals("exc")) {
 			
 			String id = request.getParameter("id");
 			Usuario usuario = new Usuario();
 			usuario.setId(Integer.parseInt(id));
 			usuDao.excluirUsuario(usuario);
+			
+			//listarUsuarios(usuDao, request, response);
+			response.sendRedirect("usucontroller.do");
+			//Ao invés de criar outro método, poderia simplesmente deixa o código no ELSE e redirecionar o servidor para
+			//uma nova requisição que atenda ao teste lógico do else e vá direto pra ele.
+					
+			//OUTRA MANEIRA DE CHAMAR A LISTA DEPOIS DE EXECUTADA A AÇÃO
+			//response.sendRedirect("usucontroller.do?=acao=lis")
+			/*Desta maneira precisa estar todos as acções em IF e não else if, pois assim executaria o código seguinte
+			 * mesmo que entrasse no if anterior. Com else if, ele excuta e depois encerra. Escolhi desta maneira pois evita
+			 * de o servlet ter que continuar fazendo os teste lógicos a cada if mesmo atendendo ao teste escolhido.
+			 * */
 			
 		} else if (teste && acao.equals("alt")) {
 			
@@ -45,6 +107,9 @@ public class UsuarioController extends HttpServlet {
 			request.setAttribute("usuario", usuario);
 			RequestDispatcher saida = request.getRequestDispatcher("formusuario.jsp");
 			saida.forward(request, response);
+			
+			//listarUsuarios(usuDao, request, response); Não funcionou
+			//response.sendRedirect("usucontroller.do"); Não funcionou
 			
 		} else if (teste && acao.equals("cad")) {
 			
@@ -57,52 +122,12 @@ public class UsuarioController extends HttpServlet {
 			RequestDispatcher saida = request.getRequestDispatcher("formusuario.jsp");
 			saida.forward(request, response);
 			
+			//listarUsuarios(usuDao, request, response); Não funcionou
+			//response.sendRedirect("usucontroller.do"); Não funcionou
+			
 		} else {
 			
-			//Obtendo a lista
-			List<Usuario> usuarioList = usuDao.buscarTodosUsuario();
-			
-			//Colocando ponteiro dentro do request
-			request.setAttribute("lista", usuarioList);
-			
-			//Encaminhando ao JSP
-			RequestDispatcher saida = request.getRequestDispatcher("listausuarios.jsp");
-			saida.forward(request, response);		
-			
-			/*for (Usuario usuario : usuarioList) {
-				
-				PrintWriter saida = response.getWriter();
-				saida.println(usuario);
-				
-			}*/
-			
-			
-			//MANEIRA RÚSTICA DE FAZER SERVLET COM HTML DE SAIDA
-			/*
-			StringBuilder htmlSaida = new StringBuilder("<html> <body> <table border='1'>");
-			htmlSaida.append("<tr> <td> Id </td> <td> Nome </td> <td> Login </td> <td> Senha </td> </tr> ");
-			String inicioLinhaTabela = "<tr> <td> ";
-			String fimInicioDadoTabela = " </td> <td> ";
-			String encerraTabela = "</td> </tr> </table> </body> </html>";
-			
-			for (Usuario usuario : usuarioList) {
-				
-				htmlSaida.append(inicioLinhaTabela);
-				htmlSaida.append(usuario.getId());
-				htmlSaida.append(fimInicioDadoTabela);
-				htmlSaida.append(usuario.getNome());
-				htmlSaida.append(fimInicioDadoTabela);
-				htmlSaida.append(usuario.getLogin());
-				htmlSaida.append(fimInicioDadoTabela);
-				htmlSaida.append(usuario.getSenha());	
-				
-			}
-			
-			htmlSaida.append(encerraTabela);
-			
-			PrintWriter saida = response.getWriter();
-			saida.print(htmlSaida.toString());
-			*/
+			listarUsuarios(usuDao, request, response);
 			
 		}
 			
