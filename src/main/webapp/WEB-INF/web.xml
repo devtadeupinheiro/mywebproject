@@ -14,4 +14,25 @@
     <servlet-name>UsuarioController</servlet-name>
     <url-pattern>/usucontroller.do</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AutenticadorController</display-name>
+    <servlet-name>AutenticadorController</servlet-name>
+    <servlet-class>dev.tadeupinheiro.controller.Autenticador</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AutenticadorController</servlet-name>
+    <url-pattern>/autcontroller.do</url-pattern>
+  </servlet-mapping>
+  <filter>
+    <display-name>FiltroAutenticacao</display-name>
+    <filter-name>FiltroAutenticacao</filter-name>
+    <filter-class>dev.tadeupinheiro.controller.FiltroAutenticacao</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>FiltroAutenticacao</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
 </web-app>

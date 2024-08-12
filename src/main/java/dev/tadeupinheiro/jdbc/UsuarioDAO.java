@@ -244,7 +244,11 @@ public class UsuarioDAO {
 		
 	}
 	
-	
+	/**
+	 *  Busca usuário por login e senha
+	 * @param Objeto do tipo usuario contendo login e senha
+	 * @return Null quando não encontra no banco e um objeto Usuario quando encontra
+	 */
 	
 	public Usuario autenticar (Usuario usuario) {
 		
