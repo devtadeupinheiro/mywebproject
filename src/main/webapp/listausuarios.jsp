@@ -4,8 +4,25 @@
 <head>
 <meta charset="UTF-8">
 <title>Listando com JSTL</title>
+
+<script type="text/javascript">
+	
+	function confirmaExclusao(id){
+		
+		if (window.confirm("Tem certeza que deseja excluir o Registro: " + id)){
+			
+			location.href="usucontroller.do?acao=exc&id="+id;	
+			
+		}
+		
+	}
+	
+</script>
+
 </head>
 <body>
+
+	<c:import url="includes/menu.jsp"></c:import>
 
 	<table border="1">
 		<tr bgcolor="#CCCCCC">
@@ -25,7 +42,8 @@
 		<td>${usu.login}</td> <!-- Sinal de "=" é um atalho para out.print, nesse caso não usar ponto e vírgula no final -->
 		<td>${usu.senha}</td>
 		<td>
-			<a href="usucontroller.do?acao=exc&id=${usu.id}">Excluir</a> <!-- Passa para o método get o parâmetro ação e o parâmetro ID -->
+			<!-- Joga o link do href para dentro do script no começo da página e busca a função confirmaExclusao, passando o argumento id usando o jstl pra passar a variável -->
+			<a href="javascript:confirmaExclusao(${usu.id})">Excluir</a> <!-- Passa para o método get o parâmetro ação e o parâmetro ID -->
 			<a href="usucontroller.do?acao=alt&id=${usu.id}">Alterar</a>
 		</td>
 	</tr>

@@ -24,7 +24,15 @@ public class Autenticador extends HttpServlet {
     public Autenticador() {}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		
+		HttpSession sessao = request.getSession(false);
+		
+		if (sessao != null) {
+			
+			sessao.invalidate();
+			
+		}
+		response.sendRedirect("login.html"); //Redireciona para o login
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -44,10 +52,11 @@ public class Autenticador extends HttpServlet {
 			
 			//Criando sessao
 			HttpSession sessao = request.getSession();
+			sessao.setMaxInactiveInterval(3000); //Define o tempo de inatividade permitido pela sessão, se ultrapassar, desloga a sessão
 			sessao.setAttribute("usuLogado", usuRetorno);
 			
 			//Encaminhando ao Index
-			request.getRequestDispatcher("index.html").forward(request, response);
+			request.getRequestDispatcher("index.jsp").forward(request, response);
 						
 		} else {
 			

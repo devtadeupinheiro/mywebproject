@@ -7,7 +7,8 @@
 
 </head>
 <body>
-
+	
+	<c:import url="includes/menu.jsp"></c:import>
 
 	<form action="usucontroller.do" method="post">
 	

@@ -89,7 +89,7 @@ public class UsuarioController extends HttpServlet {
 			usuDao.excluirUsuario(usuario);
 			
 			//listarUsuarios(usuDao, request, response);
-			response.sendRedirect("usucontroller.do");
+			response.sendRedirect("usucontroller.do"); //Manda o browser fazer uma nova requisição, nesse caso, chamando a lista porque o usucontroller.do está indo pra lista
 			//Ao invés de criar outro método, poderia simplesmente deixa o código no ELSE e redirecionar o servidor para
 			//uma nova requisição que atenda ao teste lógico do else e vá direto pra ele.
 					
@@ -106,7 +106,7 @@ public class UsuarioController extends HttpServlet {
 			Usuario usuario = usuDao.buscarUsuarioId(Integer.parseInt(id));
 			request.setAttribute("usuario", usuario);
 			RequestDispatcher saida = request.getRequestDispatcher("formusuario.jsp");
-			saida.forward(request, response);
+			saida.forward(request, response); //Manda a requisição para o servidor ao invés do browser
 			
 			//listarUsuarios(usuDao, request, response); Não funcionou
 			//response.sendRedirect("usucontroller.do"); Não funcionou
